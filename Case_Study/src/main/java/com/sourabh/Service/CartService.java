@@ -54,7 +54,7 @@ public class CartService {
 			ci.add(cartItem);
 			cart1.setCartItem(ci);
 			Cart c = cartRepo.save(cart1);
-			return cartItemRepo.findByCartId(c.getId());
+			return cartItem;
 		}
 		else {
 			List<CartItem> list = c1.getCartItem();
@@ -93,21 +93,26 @@ public class CartService {
 		Cart cart = cartRepo.findByUserId(uid);
 		List<CartItem> list_cartItem = cart.getCartItem();
 		Products product = productRepo.findById(pid);
-//		for(CartItem cartItem : list_cartItem) {
-//			if(cartItem.getProduct().equals(product)) {
+		List<CartItem> list_cartItem1 = new ArrayList<>();
+		for(CartItem cartItem : list_cartItem) {
+			if(cartItem.getProduct().equals(product)) {
 //				list_cartItem.remove(cartItem);
 //				cart.setCartItem(list_cartItem);
 //				cartRepo.save(cart);
 //				return product.getName();
-//			}
-//		}
-		boolean result = list_cartItem.removeIf(cartItem -> Objects.equals(cartItem.getProduct(), product));
-		cart.setCartItem(list_cartItem);
-		cartRepo.save(cart);
-		if(result) {
-			return product.getName();
+				continue;
+			}
+			else {
+				list_cartItem1.add(cartItem);
+			}
 		}
-		return "Nothing is";
+//		boolean result = list_cartItem.removeIf(cartItem -> Objects.equals(cartItem.getProduct(), product));
+		cart.setCartItem(list_cartItem1);
+		cartRepo.save(cart);
+//		if(result) {
+//			return product.getName();
+//		}
+		return product.getName();
 	}
 
 	public CartItem changeQuantity(int uid, int pid,int quantity) {

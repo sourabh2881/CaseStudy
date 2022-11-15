@@ -19,15 +19,15 @@ public class UserService {
 	@Autowired
 	AddressRepo addressRepo;
 	
-	public boolean login(LoginReq req) {
+	public int login(LoginReq req) {
 		String email = req.getEmail();
 		if(userRepo.existsByEmail(email)){
 			User user = userRepo.findByEmail(email).get(0);
 			if(user.getPassword().equals(req.getPassword())) {
-				return true;
+				return user.getId();
 			}
 		}
-		return false;
+		return -1;
 	}
 	
 	public Integer signup(User usr) throws Exception {

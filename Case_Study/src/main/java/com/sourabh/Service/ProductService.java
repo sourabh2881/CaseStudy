@@ -61,5 +61,10 @@ public class ProductService {
 		List<Products> prod = productRepo.filterAll(category,req.getName(),req.getMinPrice(), req.getMaxPrice());
 		return prod;
 	}
+
+	public List<Products> getAllProducts() {
+		
+		return productRepo.findAll();
+	}
 	
 }

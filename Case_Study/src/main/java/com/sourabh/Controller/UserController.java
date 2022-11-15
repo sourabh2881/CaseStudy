@@ -3,11 +3,11 @@ package com.sourabh.Controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sourabh.Entity.User;
@@ -16,7 +16,10 @@ import com.sourabh.Request.LogoutReq;
 import com.sourabh.Response.GeneralResponse;
 import com.sourabh.Response.SignUpResponse;
 import com.sourabh.Service.UserService;
+
+
 @RestController
+@CrossOrigin(origins="http://localhost:3000/")
 public class UserController {
 	
 	@Autowired
@@ -31,12 +34,15 @@ public class UserController {
 	public ResponseEntity<?> login(@RequestBody LoginReq req) {
 		
 		GeneralResponse resp = new GeneralResponse();
-		if(!userService.login(req)) {
+		int id = userService.login(req);
+		if(id==-1) {
 			resp.setResp("Invalid Credentials!");
 			return new ResponseEntity<GeneralResponse>(resp,HttpStatus.UNAUTHORIZED);
 		}
 		resp.setResp("Success");
-		return new ResponseEntity<GeneralResponse>(resp,HttpStatus.OK);
+		SignUpResponse res = new SignUpResponse();
+		res.setId(id);
+		return new ResponseEntity<SignUpResponse>(res,HttpStatus.OK);
 	}
 	
 	@PostMapping("/signup")

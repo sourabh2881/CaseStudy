@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sourabh.Entity.Products;
+import com.sourabh.Repository.ProductRepo;
 import com.sourabh.Request.FilterRequest;
 import com.sourabh.Request.ProductUpdateRequest;
 import com.sourabh.Request.ProductsRequest;
@@ -20,6 +22,7 @@ import com.sourabh.Response.GeneralResponse;
 import com.sourabh.Service.ProductService;
 
 @RestController
+@CrossOrigin(origins="http://localhost:3000/")
 @RequestMapping("/products")
 public class ProductController {
 	
@@ -76,5 +79,11 @@ public class ProductController {
 		}
 		 List<Products> resp= prodService.filterAll(req,category);
 		 return new ResponseEntity<List<Products>>(resp,HttpStatus.OK);
+	}
+	
+	@GetMapping("/getAllProducts")
+	public List<Products> filterProducts() {
+		List<Products> productList = prodService.getAllProducts();
+		 return productList;
 	}
 }
