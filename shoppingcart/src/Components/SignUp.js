@@ -55,10 +55,12 @@ class SignUp extends Component {
 		axios.post('http://localhost:8080/signup', body)
 			.then(response => {
 				alert("Registered!!!  Proceed to login now :)");
+				this.setState({
+					signUp:false
+				})
 			})
 			.catch(error => {
 				alert("Incorrect Details");
-				console.log(error)
 			})
 
 	}
@@ -73,7 +75,6 @@ class SignUp extends Component {
 			})
 			.catch(error => {
 				alert("Incorrect Credentials");
-				console.log(error)
 			})
 	}
 

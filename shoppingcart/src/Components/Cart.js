@@ -16,28 +16,29 @@ class Cart extends Component {
     if (localStorage.getItem("id")) {
       axios.get(`http://localhost:8080/order/${localStorage.getItem("id")}/createOrder`)
         .then(response => {
-          console.log("hejnf")
+          alert("Order Placed")
+          console.log("sajfdn")
+          window.location.reload();
         })
         .catch(error => {
-          console.log(error)
+          alert("error occured")
         })
     } 
+    else{
+      alert("Login again!")
+    }
   }
 
   componentDidMount() {
-    console.log(localStorage.getItem("id"))
-    console.log("first")
     axios.get(`http://localhost:8080/cart/${localStorage.getItem("id")}/getCart`)
       .then(response => {
-        console.log(response)
         this.setState({
           cartItems: response.data,
         })
       })
       .catch(error => {
-        console.log(error)
+        alert("error occured")
       })
-    console.log(this.state.cartItems)
   }
 
   renderCartItems = () => {
@@ -45,7 +46,6 @@ class Cart extends Component {
   }
 
   render() {
-    console.log(this.state.cartItems)
     return (
       <div>
         {this.renderCartItems()}

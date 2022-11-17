@@ -6,6 +6,4 @@ import com.sourabh.Entity.Address;
 
 public interface AddressRepo extends JpaRepository<Address, Integer>{
 
-	
-
 }

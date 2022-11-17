@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sourabh.Entity.Products;
-import com.sourabh.Repository.ProductRepo;
 import com.sourabh.Request.FilterRequest;
 import com.sourabh.Request.ProductUpdateRequest;
 import com.sourabh.Request.ProductsRequest;
@@ -73,12 +72,6 @@ public class ProductController {
 	
 	@PostMapping("/{category}/getFilteredProducts")
 	public ResponseEntity<?> filterProducts(@PathVariable String category, @RequestBody FilterRequest req ) {
-//		if(req.getName()==null) {
-//			List<Products> resp = prodService.filterPrice(req,category);
-//			return new ResponseEntity<List<Products>>(resp,HttpStatus.OK);
-//		}
-//		 List<Products> resp= prodService.filterAll(req,category);
-//		 return new ResponseEntity<List<Products>>(resp,HttpStatus.OK);
 		List<Products> resp = prodService.filterPrice(req,category);
 		return new ResponseEntity<List<Products>>(resp,HttpStatus.OK);
 	}

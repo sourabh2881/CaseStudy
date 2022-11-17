@@ -24,10 +24,11 @@ export class CartItem extends Component {
         if (localStorage.getItem("id")) {
             axios.get(`http://localhost:8080/cart/${localStorage.getItem("id")}/remove/${event.target.id}`)
                 .then(response => {
-                    // this.forceUpdate();
+                    alert("Item removed from the cart")
+                    window.location.reload();
                 })
                 .catch(error => {
-                    console.log(error)
+                    alert("error occured")
                 })
         } else {
             alert("Some error occured, Try logging in again!");
@@ -45,10 +46,10 @@ export class CartItem extends Component {
             if (localStorage.getItem("id")) {
                 axios.post(`http://localhost:8080/cart/${localStorage.getItem("id")}/changeQuantity/${event.target.id}`, request)
                     .then(response => {
-                        console.log("hejnf")
+                        alert("Quantity updated")
                     })
                     .catch(error => {
-                        console.log(error)
+                        alert("error occured")
                     })
             } else {
                 alert("Please Login first!");
@@ -57,7 +58,6 @@ export class CartItem extends Component {
     }
 
     render() {
-        console.log(this.props)
         return (
             <div className="m-5 " >
                 <div className='row' style={{ height: "200px" }}>

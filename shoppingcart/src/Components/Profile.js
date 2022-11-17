@@ -38,11 +38,9 @@ export class Profile extends Component {
     axios.post('http://localhost:8080/updateProfile', this.state)
       .then(response => {
         alert("Your Details have been updated!");
-        console.log(response)
       })
       .catch(error => {
         alert("Incorrect Details");
-        console.log(error)
       })
 
   }
@@ -51,22 +49,18 @@ export class Profile extends Component {
     axios.get(`http://localhost:8080/getprofile/${localStorage.getItem("id")}`)
       .then(response => {
         this.setState(response.data)
-        console.log(response)
       })
       .catch(error => {
         alert("Incorrect Credentials");
-        console.log(error)
       })
 }
   loadData(e) {
     axios.get('http://localhost:8080/getprofile/1')
       .then(response => {
         this.setState(response.data)
-        console.log(response)
       })
       .catch(error => {
         alert("Error occured");
-        console.log(error)
       })
   }
 
@@ -186,7 +180,6 @@ export class Profile extends Component {
                       value={this.state.address.pincode}
                       onChange={this.handleChangeAddress} required
                     />
-                    {/* <button>Sign Up</button> */}
                   </form>
                 </div>
                 <div className="modal-footer">

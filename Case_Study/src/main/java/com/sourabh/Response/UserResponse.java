@@ -1,6 +1,6 @@
 package com.sourabh.Response;
 
-public class SignUpResponse {
+public class UserResponse {
 	private int id;
 
 	public int getId() {

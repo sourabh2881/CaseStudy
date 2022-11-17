@@ -13,13 +13,12 @@ export class Order extends Component {
   componentDidMount() {
     axios.get(`http://localhost:8080/order/${localStorage.getItem("id")}/getOrders`)
       .then(response => {
-        console.log(response.data)
         this.setState({
           orders: response.data
         })
       })
       .catch(error => {
-        console.log(error)
+        alert("error occured")
       })
   }
 

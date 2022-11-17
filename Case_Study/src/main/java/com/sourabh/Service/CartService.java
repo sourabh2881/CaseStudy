@@ -32,30 +32,32 @@ public class CartService {
 		Cart cart = cartRepo.findByUserId(uid);
 		return cart;
 	}
-
-//	if(cartRepo.fin)
-	
 	
 	public CartItem addCart(int uid, int pid) {
 		User user = userRepo.findById(uid);
 		Products product = productRepo.findById(pid);
 		Cart c1 = cartRepo.findByUserId(uid);
+		
+		// If User Cart doesn't exist
 		if(c1==null) {
 			Cart cart = new Cart();
 			cart.setUser(user);
-			Cart cart1 = cartRepo.save(cart);
+			cart = cartRepo.save(cart);
 			CartItem cartItem = new CartItem();
-			cartItem.setCart(cart1);
+			cartItem.setCart(cart);
 			cartItem.setProduct(product);
 			cartItem.setQuantity(1);
 			List<CartItem> ci = new ArrayList<>();
 			ci.add(cartItem);
-			cart1.setCartItem(ci);
-			Cart c = cartRepo.save(cart1);
+			cart.setCartItem(ci);
+			cartRepo.save(cart);
 			return cartItem;
 		}
+		
+		//If User Cart exists
 		else {
 			List<CartItem> list = c1.getCartItem();
+			// If Cart Item exists in cart, increasing quantity by 1.
 			for(CartItem ci : list) {
 				if(ci.getProduct().getId()==pid) {
 					ci.setQuantity(ci.getQuantity()+1);
@@ -64,6 +66,7 @@ public class CartService {
 					return c1.getCartItem().get(size-1);
 				}
 			}
+			// If Cart Item dosen't exist in cart
 			CartItem cartItem = new CartItem();
 			cartItem.setCart(c1);
 			cartItem.setProduct(product);
@@ -118,59 +121,7 @@ public class CartService {
 				return cart.getCartItem().get(index);
 			}
 		}
-			
-		
 		return null;
 	}
 
 }
-
-//
-//Cart cti = cartRepo.findByUserId(user);
-//System.out.println(2);
-//if(cti==null) {
-//	System.out.println("dfj");
-//	
-//	Cart cart = new Cart();
-//	cart.setUser(user);
-//	cartRepo.save(cart);
-//	System.out.println(cart);
-//}
-
-
-//Cart ct = cartRepo.findByUserId(user);
-//System.out.println(3);
-//int cid = ct.getId();
-//System.out.println(4);
-//CartItem ci = cartItemRepo.checkIfProductIdExists(ct, product1).get(0);
-//System.out.println(5);
-//if(ci==null) {
-//	CartItem citem = new CartItem();
-//	Cart cart =  cartRepo.findById(cid);
-//	citem.setCart(cart);
-//	Products product = productRepo.findById(pid);
-//	citem.setProduct(product);
-//	citem.setQuantity(1);
-//	cartItemRepo.save(citem);
-//	return citem;
-//}
-//ci.setQuantity(ci.getQuantity()+1);
-//cartItemRepo.save(ci);
-//return ci;
-
-
-
-
-
-
-
-
-//List<CartItem> ci = cartItemRepo.findByProductId(pid);
-//for(CartItem list : ci) {
-//	if(list.getCart().getUser().getId()==uid) {
-//		list.setQuantity(list.getQuantity()+1);
-//		return cartItemRepo.save(list);
-//	}
-//}
-//ci = c1.getCartItem();
-//ci.get(0).g

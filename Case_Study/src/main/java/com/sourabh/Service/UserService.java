@@ -1,11 +1,8 @@
 package com.sourabh.Service;
 
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.sourabh.Entity.Address;
 import com.sourabh.Entity.User;
 import com.sourabh.Repository.AddressRepo;
 import com.sourabh.Repository.UserRepo;
@@ -31,7 +28,7 @@ public class UserService {
 	}
 	
 	public Integer signup(User usr) throws Exception {
-		if (userRepo.existsByEmail(usr.getEmail())) {
+		if (userRepo.existsByEmail(usr.getEmail()) || usr.getId()!=0) {
 			throw new Exception();
 		} 
 		userRepo.save(usr);
@@ -46,13 +43,16 @@ public class UserService {
 	}
 
 	public User getProfile(int id) {
+		if(!userRepo.existsById(id)){
+			return null;
+		}
 		User user = userRepo.findById(id);
 		return user;
 	}
 
 	public boolean updateProfile(User user) {
 		User usr  = userRepo.findById(user.getId());
-		if(usr==null) {
+		if(usr==null ) {
 			return false;
 		}
 		usr.setName(user.getName());

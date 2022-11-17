@@ -14,7 +14,7 @@ import com.sourabh.Entity.User;
 import com.sourabh.Request.LoginReq;
 import com.sourabh.Request.LogoutReq;
 import com.sourabh.Response.GeneralResponse;
-import com.sourabh.Response.SignUpResponse;
+import com.sourabh.Response.UserResponse;
 import com.sourabh.Service.UserService;
 
 
@@ -35,24 +35,24 @@ public class UserController {
 			return new ResponseEntity<GeneralResponse>(resp,HttpStatus.UNAUTHORIZED);
 		}
 		resp.setResp("Success");
-		SignUpResponse res = new SignUpResponse();
+		UserResponse res = new UserResponse();
 		res.setId(id);
-		return new ResponseEntity<SignUpResponse>(res,HttpStatus.OK);
+		return new ResponseEntity<UserResponse>(res,HttpStatus.OK);
 	}
 	
 	@PostMapping("/signup")
 	public ResponseEntity<?> signup(@RequestBody User usr) {
-		GeneralResponse badResp = new GeneralResponse("Name, Email and Password shouldn't be empty");
 		if(usr.getName()== null || usr.getEmail()== null || usr.getPassword()== null) {
+			GeneralResponse badResp = new GeneralResponse("Name, Email and Password shouldn't be empty");
 			return new ResponseEntity<GeneralResponse>(badResp,HttpStatus.BAD_REQUEST);
 		}
-		SignUpResponse res = new SignUpResponse();
+		UserResponse res = new UserResponse();
 		try {
 			res.setId(userService.signup(usr));
 		} catch (Exception e) {
-			return new ResponseEntity<SignUpResponse>(res,HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<UserResponse>(res,HttpStatus.BAD_REQUEST);
 		}
-		return new ResponseEntity<SignUpResponse>(res,HttpStatus.OK);
+		return new ResponseEntity<UserResponse>(res,HttpStatus.OK);
 	}
 	
 	@PostMapping("/logout")

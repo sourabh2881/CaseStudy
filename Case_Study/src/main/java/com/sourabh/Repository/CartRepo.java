@@ -7,10 +7,7 @@ import com.sourabh.Entity.Cart;
 
 @Repository
 public interface CartRepo extends JpaRepository<Cart, Integer>{
-	Cart findById(int id);
 	
-//	@Query("SELECT c FROM Cart c WHERE c.user = :user")
-//	Cart findByUserId(User user);  
-
+	Cart findById(int id);
 	Cart findByUserId(int uid);
 }

@@ -19,9 +19,6 @@ public class Products {
 	private String details;
 	private String category;
 	
-	
-//	@CollectionTable(name = "products_subcategory", joinColumns = @JoinColumn(name = "id") )
-//    @Column(name = "subcategory") // 3
 	@ElementCollection
 	private List<String> subcategory = new ArrayList<String>();
 

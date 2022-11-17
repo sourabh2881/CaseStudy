@@ -12,12 +12,6 @@ import com.sourabh.Entity.CartItem;
 public interface CartItemRepo extends JpaRepository<CartItem, Integer>{
 	
 	CartItem findById(int id);
-
-	List<CartItem> findByCartId(Integer id);
-//
 	List<CartItem> findByProductId(int pid);
-
-//	List<CartItem> findByPid(int pid);
-	
 	
 }

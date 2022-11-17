@@ -10,8 +10,8 @@ class Home extends Component {
     this.state = {
       products: [],
       minPrice: 0,
-      maxPrice: 2147483647,
-      category: ""
+      maxPrice: 1000000000,
+      category: "Grain"
     }
     this.handleChange = this.handleChange.bind(this);
     this.applyFilter = this.applyFilter.bind(this);
@@ -27,7 +27,7 @@ class Home extends Component {
           })
         })
         .catch(error => {
-          console.log(error)
+          alert("error occured")
         })
     }
     else {
@@ -38,7 +38,7 @@ class Home extends Component {
           })
         })
         .catch(error => {
-          console.log(error)
+          alert("error occured")
         })
     }
   }
@@ -60,7 +60,7 @@ class Home extends Component {
       request.minPrice = 0
     }
     if (!this.state.maxPrice) {
-      request.maxPrice = 96540000
+      request.maxPrice = 1000000000
     }
     axios.post(`http://localhost:8080/products/${this.state.category}/getFilteredProducts`, request)
       .then(response => {
@@ -69,7 +69,7 @@ class Home extends Component {
         })
       })
       .catch(error => {
-        console.log(error)
+        alert("error occured")
       })
   }
 
@@ -105,7 +105,7 @@ class Home extends Component {
             Category:</span>
           <input
             type='text'
-            style={{ height: "40px", width: "170px" }} placeholder="Category or Name"
+            style={{ height: "40px", width: "170px" }} placeholder="Category"
             name="category" value={this.state.category}
             onChange={this.handleChange} required />
           <button style={{ height: "40px", paddingTop: "6px", marginLeft: "60px" }} onClick={this.applyFilter}>Apply</button>

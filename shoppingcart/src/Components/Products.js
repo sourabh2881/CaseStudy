@@ -9,10 +9,10 @@ function Products({ person }) {
     if (localStorage.getItem("id")) {
       axios.get(`http://localhost:8080/cart/${localStorage.getItem("id")}/add/${event.target.id}`)
         .then(response => {
-          console.log("hejnf")
+          alert("Item added")
         })
         .catch(error => {
-          console.log(error)
+          alert("error occured")
         })
     }
     else {
