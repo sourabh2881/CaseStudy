@@ -2,8 +2,6 @@ package com.sourabh.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -89,30 +87,22 @@ public class CartService {
 		return null;
 	}
 
-	public String removeItem(int uid, int pid) {
+	public Products removeItem(int uid, int pid) {
 		Cart cart = cartRepo.findByUserId(uid);
-		List<CartItem> list_cartItem = cart.getCartItem();
 		Products product = productRepo.findById(pid);
-		List<CartItem> list_cartItem1 = new ArrayList<>();
-		for(CartItem cartItem : list_cartItem) {
-			if(cartItem.getProduct().equals(product)) {
-//				list_cartItem.remove(cartItem);
-//				cart.setCartItem(list_cartItem);
-//				cartRepo.save(cart);
-//				return product.getName();
-				continue;
-			}
-			else {
-				list_cartItem1.add(cartItem);
+		CartItem remove = new CartItem();
+		List<CartItem> citems = cartItemRepo.findByProductId( pid);
+		for(CartItem ci : citems) {
+			if(ci.getCart()==cart) {
+				remove=ci;
+				break;
 			}
 		}
-//		boolean result = list_cartItem.removeIf(cartItem -> Objects.equals(cartItem.getProduct(), product));
-		cart.setCartItem(list_cartItem1);
-		cartRepo.save(cart);
-//		if(result) {
-//			return product.getName();
-//		}
-		return product.getName();
+		if(cart==null || product==null || remove.getId()==null) {
+			return null;
+		}
+		cartItemRepo.delete(remove);
+		return product;
 	}
 
 	public CartItem changeQuantity(int uid, int pid,int quantity) {

@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.sourabh.Entity.MyOrder;
 import com.sourabh.Entity.OrderItems;
 import com.sourabh.Entity.Products;
-import com.sourabh.Response.CreateOrderResponse;
+import com.sourabh.Response.OrderResponse;
 import com.sourabh.Service.OrderService;
 
 @RestController
@@ -25,23 +25,39 @@ public class OrderController {
 	private OrderService orderService;
 
 	@GetMapping("/{userId}/getOrders")
-	public List<MyOrder> getOrders(@PathVariable int userId) {
-//		CreateOrderResponse response = new CreateOrderResponse();
-		List<MyOrder> order = orderService.getOrders(userId);
-//		response.setOrderId(order.getId());
-//		List<Products> products = new ArrayList<>();
-//		for(OrderItems orderItems : order.getOrderItems()) {
-//			products.add(orderItems.getProduct());
-//		}
-//		response.setProducts(products);
-		return order;
+	public List<OrderResponse> getOrders(@PathVariable int userId) {
+		List<OrderResponse> responseList = new ArrayList<>();
+		List<MyOrder> orders = orderService.getOrders(userId);
+		if(orders==null) {
+			return null;
+		}
+		for(MyOrder it: orders) {
+			OrderResponse response = new OrderResponse();
+			response.setOrderId(it.getId());
+			response.setStatus(it.isStatus());
+			response.setPrice(it.getTotalPrice());
+			List<Products> products = new ArrayList<>();
+			for(OrderItems orderItems : it.getOrderItems()) {
+				products.add(orderItems.getProduct());
+			}
+			response.setProducts(products);
+			responseList.add(response);
+		}
+		return responseList;
 	}
 	
+	
+	
 	@GetMapping("/{userId}/createOrder")
-	public CreateOrderResponse createOrder (@PathVariable int userId) {
+	public OrderResponse createOrder (@PathVariable int userId) {
 		MyOrder order = orderService.createOrder(userId);
-		CreateOrderResponse response = new CreateOrderResponse();
+		OrderResponse response = new OrderResponse();
+		if(order==null) {
+			return response;
+		}
 		response.setOrderId(order.getId());
+		response.setStatus(order.isStatus());
+		response.setPrice(order.getTotalPrice());
 		List<Products> products = new ArrayList<>();
 		for(OrderItems orderItems : order.getOrderItems()) {
 			products.add(orderItems.getProduct());

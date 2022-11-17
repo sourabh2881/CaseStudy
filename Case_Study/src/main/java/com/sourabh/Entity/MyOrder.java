@@ -29,6 +29,16 @@ public class MyOrder {
 	private List<OrderItems> orderItems;
 	
 	private long totalPrice;
+	
+	private boolean status;
+	
+	public boolean isStatus() {
+		return status;
+	}
+
+	public void setStatus(boolean status) {
+		this.status = status;
+	}	
 
 	public long getTotalPrice() {
 		return totalPrice;

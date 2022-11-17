@@ -73,16 +73,18 @@ public class ProductController {
 	
 	@PostMapping("/{category}/getFilteredProducts")
 	public ResponseEntity<?> filterProducts(@PathVariable String category, @RequestBody FilterRequest req ) {
-		if(req.getName()==null) {
-			List<Products> resp = prodService.filterPrice(req,category);
-			return new ResponseEntity<List<Products>>(resp,HttpStatus.OK);
-		}
-		 List<Products> resp= prodService.filterAll(req,category);
-		 return new ResponseEntity<List<Products>>(resp,HttpStatus.OK);
+//		if(req.getName()==null) {
+//			List<Products> resp = prodService.filterPrice(req,category);
+//			return new ResponseEntity<List<Products>>(resp,HttpStatus.OK);
+//		}
+//		 List<Products> resp= prodService.filterAll(req,category);
+//		 return new ResponseEntity<List<Products>>(resp,HttpStatus.OK);
+		List<Products> resp = prodService.filterPrice(req,category);
+		return new ResponseEntity<List<Products>>(resp,HttpStatus.OK);
 	}
 	
 	@GetMapping("/getAllProducts")
-	public List<Products> filterProducts() {
+	public List<Products> filterrrProducts() {
 		List<Products> productList = prodService.getAllProducts();
 		 return productList;
 	}

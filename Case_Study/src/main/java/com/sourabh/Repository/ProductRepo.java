@@ -17,7 +17,7 @@ public interface ProductRepo extends JpaRepository<Products, Integer>{
 	@Query("SELECT p FROM Products p WHERE p.name LIKE %:searchString% OR p.category LIKE %:searchString%")
 	List<Products> searchByNameLike(@Param("searchString") String searchString);
 	
-	@Query("SELECT p FROM Products p WHERE p.category=:ctgry AND p.price > :minP AND p.price < :maxP")
+	@Query("SELECT p FROM Products p WHERE p.category LIKE %:ctgry%  OR p.name LIKE %:ctgry% AND p.price > :minP AND p.price < :maxP")
 	List<Products> filterPrice(String ctgry , Long minP , Long maxP);
 	
 	@Query("SELECT p FROM Products p WHERE p.category=:ctgry AND p.name LIKE %:filterName% AND (p.price > :minP AND p.price < :maxP)")

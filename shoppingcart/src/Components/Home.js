@@ -11,22 +11,36 @@ class Home extends Component {
       products: [],
       minPrice: 0,
       maxPrice: 2147483647,
-      category: "Headphone"
+      category: ""
     }
     this.handleChange = this.handleChange.bind(this);
     this.applyFilter = this.applyFilter.bind(this);
+
   }
 
   componentDidMount() {
-    axios.get("http://localhost:8080/products/getAllProducts")
-      .then(response => {
-        this.setState({
-          products: response.data
+    if (this.props.searchString) {
+      axios.get(`http://localhost:8080/products/search/${this.props.searchString}`)
+        .then(response => {
+          this.setState({
+            products: response.data
+          })
         })
-      })
-      .catch(error => {
-        console.log(error)
-      })
+        .catch(error => {
+          console.log(error)
+        })
+    }
+    else {
+      axios.get("http://localhost:8080/products/getAllProducts")
+        .then(response => {
+          this.setState({
+            products: response.data
+          })
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    }
   }
 
   handleChange(event) {
@@ -43,13 +57,11 @@ class Home extends Component {
     }
 
     if (!this.state.minPrice) {
-      console.log("fuh")
-      request.minPrice=0
+      request.minPrice = 0
     }
     if (!this.state.maxPrice) {
-      request.maxPrice=96540000
+      request.maxPrice = 96540000
     }
-    console.log(request)
     axios.post(`http://localhost:8080/products/${this.state.category}/getFilteredProducts`, request)
       .then(response => {
         this.setState({
@@ -67,7 +79,6 @@ class Home extends Component {
 
   render() {
     return (
-
       <div>
         <div className='d-flex m-5' style={{ textAlign: "center" }}>
           <b
@@ -94,7 +105,7 @@ class Home extends Component {
             Category:</span>
           <input
             type='text'
-            style={{ height: "40px", width: "150px" }}
+            style={{ height: "40px", width: "170px" }} placeholder="Category or Name"
             name="category" value={this.state.category}
             onChange={this.handleChange} required />
           <button style={{ height: "40px", paddingTop: "6px", marginLeft: "60px" }} onClick={this.applyFilter}>Apply</button>

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.sourabh.Entity.Cart;
 import com.sourabh.Entity.CartItem;
+import com.sourabh.Entity.Products;
 import com.sourabh.Request.ProductQuantity;
 import com.sourabh.Response.GeneralResponse;
 import com.sourabh.Service.CartService;
@@ -45,8 +46,12 @@ public class CartController {
 	
 	@GetMapping("/{userId}/remove/{productId}")
 	public GeneralResponse removeItem(@PathVariable("userId") int uid, @PathVariable("productId") int pid ){
-		String res= cartService.removeItem(uid,pid);
-		GeneralResponse response = new GeneralResponse(res + " removed from cart");
+		Products prod= cartService.removeItem(uid,pid);
+		if(prod==null) {
+			GeneralResponse response = new GeneralResponse("Product doesn't exist for the user.");
+			return response;
+		}
+		GeneralResponse response = new GeneralResponse(prod.getName() + " removed from cart");
 		return response;
 	}
 	

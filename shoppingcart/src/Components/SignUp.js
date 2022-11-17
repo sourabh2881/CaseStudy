@@ -83,8 +83,16 @@ class SignUp extends Component {
 
 	componentDidMount() {
 		if (localStorage.getItem("id")) {
-			localStorage.clear();
-			alert("You have been logged out!");
+			const user = {
+				id: localStorage.getItem("id")
+			}
+			axios.post('http://localhost:8080/logout', user)
+				.then(response => {
+					localStorage.clear();
+				})
+				.catch(error => {
+					alert("Some error occured!")
+				})
 		}
 	}
 

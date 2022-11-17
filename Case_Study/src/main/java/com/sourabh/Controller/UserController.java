@@ -24,11 +24,6 @@ public class UserController {
 	
 	@Autowired
 	UserService userService ;
-	
-	@GetMapping("/hi")
-	public String hi() {
-		return "fj";
-	}
 
 	@PostMapping("/login")
 	public ResponseEntity<?> login(@RequestBody LoginReq req) {

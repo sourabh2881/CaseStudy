@@ -1,6 +1,5 @@
 import axios from 'axios'
 import React, { Component } from 'react'
-import { useNavigate } from 'react-router-dom';
 
 export class CartItem extends Component {
     constructor(props) {
@@ -11,6 +10,7 @@ export class CartItem extends Component {
         }
         this.handleChange = this.handleChange.bind(this);
         this.addToCart = this.addToCart.bind(this);
+        this.removeFromCart = this.removeFromCart.bind(this);
     }
 
     handleChange(event) {
@@ -21,40 +21,43 @@ export class CartItem extends Component {
     }
 
     removeFromCart = (event) => {
-        const navigate = useNavigate();
-        const request = {
-            quantity: this.state.quantity
-        }
         if (localStorage.getItem("id")) {
-            axios.post(`http://localhost:8080/cart/${localStorage.getItem("id")}/changeQuantity/${event.target.id}`, request)
+            axios.get(`http://localhost:8080/cart/${localStorage.getItem("id")}/remove/${event.target.id}`)
                 .then(response => {
-                    console.log("hejnf")
+                    // this.forceUpdate();
                 })
                 .catch(error => {
                     console.log(error)
                 })
         } else {
-            navigate("/login");
+            alert("Some error occured, Try logging in again!");
         }
     }
+
     addToCart = (event) => {
-        const navigate = useNavigate();
         const request = {
             quantity: this.state.quantity
         }
-        if (localStorage.getItem("id")) {
-            axios.post(`http://localhost:8080/cart/${localStorage.getItem("id")}/changeQuantity/${event.target.id}`, request)
-                .then(response => {
-                    console.log("hejnf")
-                })
-                .catch(error => {
-                    console.log(error)
-                })
-        } else {
-            navigate("/login");
+        if (this.state.quantity <= 0) {
+            alert("Invalid Quantity");
+        }
+        else {
+            if (localStorage.getItem("id")) {
+                axios.post(`http://localhost:8080/cart/${localStorage.getItem("id")}/changeQuantity/${event.target.id}`, request)
+                    .then(response => {
+                        console.log("hejnf")
+                    })
+                    .catch(error => {
+                        console.log(error)
+                    })
+            } else {
+                alert("Please Login first!");
+            }
         }
     }
+
     render() {
+        console.log(this.props)
         return (
             <div className="m-5 " >
                 <div className='row' style={{ height: "200px" }}>
@@ -74,7 +77,7 @@ export class CartItem extends Component {
                         ></input>
                         <button style={{ backgroundColor: "green" }} id={this.props.cartItems.product.id} onClick={this.addToCart}>Add to Cart</button>
                         <div>
-                            <button style={{ margin: " 20px 0px 0px 100px" }}>Remove from Cart</button>{/* <button id={cartItems.id} onClick={addToCart} style={{ marginTop: "32px", height: "50px" }}>Add to Cart</button> */}
+                            <button style={{ margin: " 20px 0px 0px 100px" }} id={this.props.cartItems.product.id} onClick={this.removeFromCart}>Remove from Cart</button>{/* <button id={cartItems.id} onClick={addToCart} style={{ marginTop: "32px", height: "50px" }}>Add to Cart</button> */}
                         </div>
                     </div>
                 </div>

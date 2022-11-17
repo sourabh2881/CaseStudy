@@ -21,8 +21,6 @@ public class OrderItems {
 	@OneToOne
 	@JoinColumn(name = "pid",referencedColumnName ="id")
 	private Products product;
-	
-	private boolean status;
 
 	public Integer getId() {
 		return id;
@@ -47,14 +45,5 @@ public class OrderItems {
 	public void setProduct(Products product) {
 		this.product = product;
 	}
-
-	public boolean isStatus() {
-		return status;
-	}
-
-	public void setStatus(boolean status) {
-		this.status = status;
-	}
-	
 	
 }

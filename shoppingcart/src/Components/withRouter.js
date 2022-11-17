@@ -6,16 +6,11 @@ const WithRouter = OriginalComponent => {
     
     function NewComponent(){
         const navigate = useNavigate();
+        
       return (
-        <OriginalComponent navigate={navigate} />
+        <OriginalComponent navigate={navigate}/>
       )
     }
-    
-    // class NewComponent extends React.Component{
-    //     render(){
-    //         return <OriginalComponent navigate={navigate} /> 
-    //     }
-    // }
     return NewComponent
 }
 
